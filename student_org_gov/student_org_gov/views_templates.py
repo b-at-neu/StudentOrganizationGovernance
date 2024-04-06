@@ -30,6 +30,6 @@ def post(request):
 
     # Check method
     if request.method != "POST":
-        return HttpResponseRedirect(".")
+        return False
     
     return request.POST

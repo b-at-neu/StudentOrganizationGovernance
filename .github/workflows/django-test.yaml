@@ -1,12 +1,12 @@
 name: Django Test
 
-on:
-    workflow_call:
-    workflow_dispatch:
-    push:
-       branches: [main]
-    pull_request:
-        branches: [main]
+#on:
+#    workflow_call:
+#    workflow_dispatch:
+#    push:
+#       branches: [main]
+#    pull_request:
+#        branches: [main]
 
 jobs:
   django_test_phase:

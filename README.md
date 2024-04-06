@@ -13,6 +13,8 @@
 - Add helpful error messages in testing view class by catching errors
 - Make submit_constitution require club on view
 - Add JS
+- Add POST decorator to check for method type before all other checks
+- Change error text on tests to not read "Able to access" but something more clear
 
 
 ## Upcoming features
@@ -37,6 +39,8 @@
 - Add ability to create bullet points in sections (mostly for the role definitions)
 - Improve front-end formatting of forms
 - Improve formatting of links
+- Add warning that you cant delete last article or section
+- Consolidate multiple POST funcs into one view with more params
 
 
 ## Useful features
@@ -45,6 +49,7 @@
 - Add links to engage pages of the clubs
 - Add bylaws?
 - Email confirmation and NEU emails only
+- Add undo's
 
 
 ## Bug tracking
@@ -54,3 +59,4 @@
 - Cleaner code: remove club_url arg from post functions and test the proper club without decorator
 - Add link to a board overview of a specific club to board overview page (link doesn't lead anywhere)
 - User signup requires password to be unique from email but not from username
+- When deleting a model object during test, if view is run twice, errors occur (temp solution: don't test admin)
