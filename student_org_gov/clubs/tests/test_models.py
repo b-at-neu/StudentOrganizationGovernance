@@ -79,12 +79,29 @@ class TestClubModels(TestModel):
                 }
             }
         )
+        # Some complex funcs remain untested so far
         self.assertModelFunction(
             function="__str__",
             data={
                 self.club1: "FIRST",
                 self.club2: "club with a long name here and spaces",
                 self.club3: "jacko"
+            }
+        )
+        self.assertModelFunction(
+            function="get_recently_submitted_constitutions",
+            data={
+                self.club1: [self.constitution1],
+                self.club2: [self.constitution2],
+                self.club3: []
+            }
+        )
+        self.assertModelFunction(
+            function="get_recently_approved_constitutions",
+            data={
+                self.club1: [self.constitution1],
+                self.club2: [],
+                self.club3: []
             }
         )
 

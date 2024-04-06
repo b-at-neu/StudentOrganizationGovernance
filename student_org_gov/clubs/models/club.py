@@ -1,6 +1,7 @@
 import json
 
 from django.db import models
+from django.db.models import Q
 from django.contrib.staticfiles import finders
 
 import clubs.models as club_models
@@ -8,6 +9,9 @@ import clubs.models as club_models
 
 class ClubManager(models.Manager):
     def create(self, *args, **kwargs):
+        """
+        Runs when an object is created
+        """
         kwargs["url"] = kwargs.get("full_name", "").replace(" ", "").lower()[:50]
 
         o = super(ClubManager, self).create(*args, **kwargs)
@@ -89,6 +93,20 @@ class Club(models.Model):
             constitution.save()
 
         return constitution
+    
+
+    def get_recently_submitted_constitutions(self):
+        """
+        Returns a queryset of submitted constitutions from the current club ordered by recent  
+        """
+        return self.constitutions.order_by("-timestamp").filter(~Q(status=club_models.Constitution.Status.EDITED))
+
+
+    def get_recently_approved_constitutions(self):
+        """
+        Returns a queryset of approved constitutions from the current club ordered by recent  
+        """
+        return self.constitutions.order_by("-timestamp").filter(status=club_models.Constitution.Status.APPROVED)
 
 
     def __str__(self) -> str:

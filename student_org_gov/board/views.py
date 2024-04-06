@@ -13,8 +13,8 @@ def board_overview_page(request):
         # Add info about club to list
         club_list.append({
             'club_model': club,
-            'recent_submitted_constitution': club.constitutions.order_by("-timestamp").filter(~Q(status=models.Constitution.Status.EDITED)).first(),
-            'recent_approved_constitution': club.constitutions.order_by("-timestamp").filter(status=models.Constitution.Status.APPROVED).first()
+            'recent_submitted_constitution': club.get_recently_submitted_constitutions().first(),
+            'recent_approved_constitution': club.get_recently_approved_constitutions().first()
         })
     return render(request, "board/board_overview.html", { 'club_list': club_list })
 

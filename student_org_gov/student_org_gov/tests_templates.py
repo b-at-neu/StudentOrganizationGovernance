@@ -1,5 +1,6 @@
 from copy import copy, deepcopy
 
+from django.db.models.query import QuerySet
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotFound
 from django.test import Client, TestCase
 from django.contrib.auth import get_user_model
@@ -498,4 +499,10 @@ class TestModel(TestCase):
         """
         for k, v in data.items():
             func = getattr(k, function)
-            self.assertEqual(func(), v, f"Function {function} returned improper value for model {k}")
+            value = func()
+            
+            # Convert QuerySets to lists for comparison
+            if isinstance(value, QuerySet):
+                value = list(value)    
+            
+            self.assertEqual(value, v, f"Function {function} returned improper value for model {k}")

@@ -4,8 +4,6 @@
 
 ### General
 - Move all model interactions that views do to the respective model
-    - Add more standard functions to models like __str__ and __reqr__
-- Add testing for all model functions
 - Add tests that check for bad model creation
 - Add JS to do async POST requests
 - Standarize using the objects.create function NOT instantiating the class
