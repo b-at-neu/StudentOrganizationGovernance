@@ -1,5 +1,3 @@
-import json
-
 from django.db import models
 
 import clubs.models as club_models

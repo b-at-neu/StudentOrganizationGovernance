@@ -3,8 +3,6 @@
 ## High Priority
 
 ### General
-- Checkbox?
-- Add form testing
 - Move all model interactions that views do to the respective model
     - Add more standard functions to models like __str__ and __reqr__
 - Add testing for all model functions
@@ -13,9 +11,6 @@
 - Standarize using the objects.create function NOT instantiating the class
 - Add model managers to all models
 - Add help text, labels, and error-messages to front end forms
-
-### Clubs
-- Finish adding model testing for Constitution model
 
 ## Medium Priority
 
@@ -44,6 +39,7 @@
 - Create nice home page
 - Improve front-end formatting of forms
 - Improve formatting of links
+- Add form testing
 
 ### Clubs
 - Add ability for board members to deny certain sections and provide reasoning

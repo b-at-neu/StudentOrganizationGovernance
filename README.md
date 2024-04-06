@@ -18,3 +18,5 @@ Keep track of all issues in the Github issues list.
 Update `TODO.md` accordingly with tasks you complete.
 
 Add tests for all views, models, and forms you create using the provided template.
+
+Make sure to always run the full test suite before uploading to git.
