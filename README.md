@@ -36,6 +36,7 @@
 - Add help text, labels, and error-messages to front end forms
 - Add ability to create bullet points in sections (mostly for the role definitions)
 - Improve front-end formatting of forms
+- Improve formatting of links
 
 
 ## Useful features
@@ -52,3 +53,4 @@
 - Club creation does not take you to club page immediately
 - Cleaner code: remove club_url arg from post functions and test the proper club without decorator
 - Add link to a board overview of a specific club to board overview page (link doesn't lead anywhere)
+- User signup requires password to be unique from email but not from username
