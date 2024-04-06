@@ -1,0 +1,63 @@
+{% extends "base_template.html" %}
+
+{% block title %} {{ club }} Constitution {% endblock %}
+
+{% block body %}
+<h1>Constitution for {{ club }}</h1>
+
+    <p>Created on {{ constitution.timestamp }}</p>
+    {% if constitution.status == 1 %}
+        <p>Approved on {{ constitution.reviewed_timestamp }}</p>
+    {% endif %}
+
+    <table>
+        {% for article in articles %}
+            <tr>
+                <th>Article {{ article.number }}</th>
+                <th>{{ article.title }}</th>
+            </tr>
+    
+            {% for section in article.sections.all %}
+                <tr>
+                    <td>Section {{ section.number }}</td>
+                    <td>{{ section.content }}</td>
+                </tr>
+            
+            {% endfor %}
+        {% endfor %}
+    </table>
+
+    <div class="buttons">
+
+        {% if constitution.status == 4 and user.has_e_board_role and user.club.pk == club.pk %}
+            <form method="post" action="{% url 'submit_constitution' club.url %}">
+                {% csrf_token %}
+                <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+                <input type="submit" value="Submit Constitution">
+            </form>
+        {% endif %}
+            
+        {% if constitution.status == 5 and user.has_board_role %}
+            <form method="post" action="{% url 'review_constitution' %}">
+                {% csrf_token %}
+                <input type="hidden" name="decision" value="1">
+                <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+                <input type="submit" value="Approve Constitution">
+            </form>
+            <form method="post" action="{% url 'review_constitution' %}">
+                {% csrf_token %}
+                <input type="hidden" name="decision" value="0">
+                <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+                <input type="submit" value="Deny Constitution">
+            </form>
+        {% endif %}
+        
+        {% if user.has_admin_role or user.has_e_board_role and user.club.pk == club.pk %}
+            <a href="{% url 'club' club.url %}"><button>Back to Club</button></a>
+        {% else %}
+            <a href="{% url 'clubs' %}"><button>Back to Overview</button></a>
+        {% endif %}
+    
+    </div>    
+    
+{% endblock %}

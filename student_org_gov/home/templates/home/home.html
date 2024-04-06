@@ -1,0 +1,21 @@
+{% extends "base_template.html" %}
+
+{% block title %} Home Constitution {% endblock %}
+
+{% block body %}
+
+<!-- Club of person -->
+{% if user.role == 2 and user.club %}
+    <a href="{% url 'club' user.club.url %}"><button>View My Club</button></a>
+{% endif %}
+
+<!-- Board and admin views -->
+{% if user.role <= 1 %}
+    <a href="{% url 'board' %}"><button>Board View</button></a>
+    <a href="{% url 'users' %}"><button>Users List</button></a>
+{% endif %}
+
+<!-- All links -->
+<a href="{% url 'clubs' %}"><button>All Clubs</button></a>
+
+{% endblock %}

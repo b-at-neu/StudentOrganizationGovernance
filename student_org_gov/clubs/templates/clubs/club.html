@@ -1,0 +1,40 @@
+{% extends "base_template.html" %}
+
+{% block title %} {{ club }} {% endblock %}
+
+{% block body %}
+    <h1>Constitutions for {{ club }}</h1>
+
+    <table>
+        {% for constitution in club.constitutions.all %}
+            <tr>
+                <td><a href="{% url 'constitution' club.url constitution.url %}">{{ constitution }}</a></td>
+                <td>{{ constitution.get_status_display }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="buttons">
+
+        {% if user.has_admin_role or user.has_e_board_role and user.club.pk == club.pk %}
+            <a href="{% url 'edit_constitution' club.url %}"><button>Edit Constitution</button></a>
+        {% endif %}
+
+        {% if user.has_admin_role %}
+            <form method="post" action="{% url 'delete_constitution' %}">
+                {% csrf_token %}
+                <input type="hidden" name="club" value="{{ club.pk }}">
+                <input type="submit" value="Delete Most Recent Constitution">
+            </form>
+
+            <form method="post" action="{% url 'delete_club' %}">
+                {% csrf_token %}
+                <input type="hidden" name="club" value="{{ club.pk }}">
+                <input type="submit" value="Delete Club">
+            </form>
+        {% endif %}
+        
+        <a href="{% url 'clubs' %}"><button>Back to Overview</button></a>
+
+    </div>
+{% endblock %}

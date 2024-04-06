@@ -1,0 +1,65 @@
+{% extends "base_template.html" %}
+
+{% block title %} User Overview {% endblock %}
+
+{% block body %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Club</th>
+
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.pk }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <form method="GET" action="{% url 'edit_role' %}">
+                            <input type="hidden" name="user" value="{{ user.pk }}">
+                            
+                            <select name="role" onchange="this.form.submit()">
+                                {% for role in roles %}
+                                    {% if role.0 == user.role %}
+                                        <option value="{{ role.0 }}" selected>{{ role.1 }}</option>
+                                    {% else %}
+                                        <option value="{{ role.0 }}">{{ role.1 }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <!-- Club selection (only for e-board role) -->
+                        {% if user.role == 2 %}
+
+                            <form method="GET" action="{% url 'edit_club' %}">
+                                <input type="hidden" name="user" value="{{ user.pk }}">
+                                
+                                <select name="club" onchange="this.form.submit()">
+                                    {% for club in clubs %}
+                                        {% if club.pk == user.club.pk %}
+                                            <option value="{{ club.pk }}" selected>{{ club }}</option>
+                                        {% else %}
+                                            <option value="{{ club.pk }}">{{ club }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if user.club == None %}
+                                        <option value="None" selected>None</option>
+                                    {% else %}
+                                        <option value="None">None</option> 
+                                    {% endif %}
+                                </select>
+                            </form>
+
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "base_template.html" %}
+
+{% block title %} Edit {{ club }} Constitution {% endblock %}
+
+{% block body %}
+    <h1>Constitution for {{ club }}</h1>
+
+    <!-- Forms -->
+    <form id="save-constitution" method="post" action="{% url 'save_constitution_edits' club.url %}">
+        {% csrf_token %}
+        <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+
+    </form>
+
+
+    <p>Created on {{ constitution.timestamp }}</p>
+
+        <table>
+            {% for article in articles %}
+                <tr>
+                    <th>Article {{ article.number }}</th>
+                    <th>
+                        <input name="article#{{ article.pk }}" type="text" value="{{ article.title }}" style="width: 100%;">
+                    </th>
+                    <th>
+                        <form method="post" action="{% url 'remove_article_constitution' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="article" value="{{ article.pk }}">
+                            <input type="submit" value="Remove Article">
+                        </form>
+                    </th>
+                </tr>
+        
+                {% for section in article.sections.all %}
+                    <tr>
+                        <td>Section {{ section.number }}</td>
+                        <td>
+                            <textarea name="section#{{ section.pk }}" rows="10" style="resize: vertical; width: 100%;">{{ section.content }}</textarea>
+                        </td>
+                        <td>
+                            <form method="post" action="{% url 'remove_section_constitution' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="section" value="{{ section.pk }}">
+                                <input type="submit" value="Remove Section">
+                            </form>
+                        </td>
+                    </tr>
+                
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td>
+                        <form method="post" action="{% url 'add_section_constitution' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="article" value="{{ article.pk }}">
+                            <input type="submit" value="Add Section">
+                        </form>
+                    </td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        
+        <form method="post" action="{% url 'add_article_constitution' %}">
+            {% csrf_token %}
+            <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+            <input type="submit" value="Add Article">
+        </form>
+
+        
+    <div class="buttons">
+            
+        <input type="submit" value="Save Edits" form="save-constitution">
+            
+        <form method="post" action="{% url 'submit_constitution' club.url %}">
+            {% csrf_token %}
+            <input type="hidden" name="constitution" value="{{ constitution.pk }}">
+            <input type="submit" value="Submit Constitution">
+        </form>
+        
+        <a href="{% url 'club' club.url %}"><button>Back to Club HERE</button></a>
+    
+    </div>    
+    
+{% endblock %}

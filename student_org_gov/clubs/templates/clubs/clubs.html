@@ -1,0 +1,25 @@
+{% extends "base_template.html" %}
+
+{% block title %} Club Overview {% endblock %}
+
+{% block body %}
+
+    <h1>List of all clubs</h1>
+
+    <div>
+        {% for club in clubs %}
+            <!-- Go to constitution unless board member, admin, or eboard and is club -->
+            {% if user.has_admin_role or user.has_e_board_role and user.club.pk == club.pk %}
+                <p><a href="{% url 'club' club.url %}">{{ club }}</a></p>
+            {% else %}
+                <p><a href="{% url 'constitution' club.url club.constitutions.last.url %}">{{ club }}</a></p>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+
+    <div class="buttons">
+        <a href="{% url 'create_club' %}"><button>Create Club</button></a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base_template.html" %}
+
+{% block title %} Board Overview {% endblock %}
+
+{% block body %}
+
+    <h1>List of all clubs</h1>
+
+    <table>
+        <tr>
+            <th>Club</th>
+            <th>Constitution Status</th>
+            <th>Most Recent Review</th>
+        </tr>
+
+        {% for club in club_list %}
+        <tr>
+            <td><a href="">{{ club.club_model }}</a></td>
+            <td>{{ club.recent_submitted_constitution.get_status_display }}</td>
+            <td>{{ club.recent_approved_constitution.reviewed_timestamp }}</td>
+            <td>
+                {% if club.recent_submitted_constitution %}
+                    <a href="{% url 'review_constitution' club.club_model.url club.recent_submitted_constitution.pk %}">
+                        <button>Review</button>
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                {% if club.recent_approved_constitution %}
+                    <a href="{% url 'constitution' club.club_model.url club.recent_approved_constitution.pk %}">
+                        <button>Current Constitution</button>
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'clubs' %}"><button>See Club Overview</button></a>
+
+{% endblock %}

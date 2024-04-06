@@ -1,0 +1,49 @@
+{
+    "Name": [
+        "The name of this organization shall be the ORG_NAME, hereafter referred to as ORG_ABBR."
+    ],
+    "Purpose": [
+        "PURPOSE"
+    ],
+    "Affiliation": [
+        "ORG_ABBR is affiliated with AFFILIATION"
+    ],
+    "Membership": [
+        "ORG_ABBR does not discriminate on the basis of race, national origin, color, gender, gender identity, religion, religious creed, genetics, sex, age, ancestry, veteran status, disability, or sexual orientation.",
+        "Membership will be open to all full-time undergraduate students.",
+        "Graduate students, part-time undergraduate students, College of Professional Studies students, and non-Northeastern affiliates may become associate members by paying a membership fee that is set by the executive board, not to exceed $20 per semester.  Associate members are not eligible to vote or hold any position within this organization by either election or appointment.",
+        "ORG_ABBR will maintain a membership of at least twelve members at all times.",
+        "Dues shall be not more than $DUES_AMOUNT per semester"
+    ],
+    "Officers": [
+        "All officers will be responsible for knowing and understanding the information in the Student Organization Resource Guide, the Code of Student Conduct, the Guide to Residence Hall Living, and all other published university policies.",
+        "All officers must be full-time undergraduate students at Northeastern University.",
+        "The officers of ORG_ABBR and their roles shall be listed in the following sections.",
+        "President: ",
+        "Treasurer: Manages finances and fundraising, and attends all Student Activities Business Office required meetings"
+    ],
+    "Advisor": [
+        "The advisor to the club must be a full-time faculty or staff member at Northeastern.  The advisor will be an ex-officio, non-voting member on all committees of the organization.",
+        "The advisor will be responsible for financial oversight by signing all financial forms for the Student Activities Business Office.",
+        "The advisor shall meet with officers as needed."
+    ],
+    "Election of Officers": [
+        "Elections shall be sufficiently publicized to all members two weeks in advance.",
+        "The nomination process will take place in the week leading up to the election.  Members may nominate others or themselves, with self-nominations requiring a second.",
+        "The election process will take place at the end of the spring semester.",
+        "Each position will be voted on separately.  The voting order shall be the order in which the officer roles are listed in the Officers Article.  A nominee who is not voted into the original office for which he or she was nominated, may then be nominated for any of the remaining offices.",
+        "A nominee is voted into office with a plurality vote of the current voting membership.",
+        "The term of office shall be one year, from the beginning of summer I to the end of the spring semester of the following year.",
+        "If an officer role is vacated for any reason, then an emergency election shall be held to fill the role for the remainder of the previous officer`s term."
+    ],
+    "Parliamentary Authority": [
+        "Robert`s Rules of Order will be the guide for all organizational procedures not specifically defined in the constitution or by-laws.",
+        "Quorum will be over 50% of total current membership.",
+        "A voting member is defined as one who has attended at least 50% of meetings and functions during the current executive board`s term."
+    ],
+    "Amendments": [
+        "The by-laws and constitution may be amended by a 2/3 majority vote of present members.",
+        "Notice of the amendment must be presented in writing at least one meeting prior to the vote.",
+        "After a constitutional amendment is approved by the organization, the amendments must be presented to the Student Government Association`s designated approval body."
+    ]
+}
