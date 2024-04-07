@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,6 +68,7 @@
         }
         
     </style>
+    <script type="module" src="{% static 'post.js' %}"></script>
     {% block head %}
     {% endblock %}
 </head>

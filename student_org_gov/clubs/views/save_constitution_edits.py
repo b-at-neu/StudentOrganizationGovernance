@@ -16,6 +16,8 @@ from users.models import RoleUser
 def view(request, club_url):
     data = post(request)
 
+    print(data)
+
     try:
         constitution = models.Constitution.objects.get(pk=data.get("constitution"))
     except:
@@ -38,6 +40,7 @@ def view(request, club_url):
             article.title = v
             article.save()
 
+        # Handle sections
         elif type == "section":
             section = models.Section.objects.get(pk=id)
             section.content = v

@@ -1,17 +1,30 @@
 {% extends "base_template.html" %}
 
-{% block title %} Edit {{ club }} Constitution {% endblock %}
+{% block title %} Edit {{ club }} Constitution {% endblock title %}
+
+{% block head %}
+    <script type="module">
+        import { post } from "/static/post.js"
+
+        function saveConstitution() {
+            // Gather data
+            console.log([...document.querySelectorAll(".save-constitution")])
+            const data = [...document.querySelectorAll(".save-constitution")].reduce((obj, i) => ({...obj, [i.name]: i.value}), {})
+            data.constitution = {{ constitution.pk }}
+
+            post("{% url 'save_constitution_edits' club.url %}", data)
+        }
+
+        // Save all data every 10 seconds, on button, and on leaving
+        window.setInterval(saveConstitution, 10000)
+        document.querySelector("button#save-edits").addEventListener("click", saveConstitution)
+        window.onbeforeunload = saveConstitution
+        
+    </script>
+{% endblock head %}
 
 {% block body %}
     <h1>Constitution for {{ club }}</h1>
-
-    <!-- Forms -->
-    <form id="save-constitution" method="post" action="{% url 'save_constitution_edits' club.url %}">
-        {% csrf_token %}
-        <input type="hidden" name="constitution" value="{{ constitution.pk }}">
-
-    </form>
-
 
     <p>Created on {{ constitution.timestamp }}</p>
 
@@ -20,7 +33,7 @@
                 <tr>
                     <th>Article {{ article.number }}</th>
                     <th>
-                        <input name="article#{{ article.pk }}" type="text" value="{{ article.title }}" style="width: 100%;">
+                        <input name="article#{{ article.pk }}" type="text" value="{{ article.title }}" style="width: 100%;" class="save-constitution">
                     </th>
                     <th>
                         <form method="post" action="{% url 'remove_article_constitution' %}">
@@ -35,7 +48,7 @@
                     <tr>
                         <td>Section {{ section.number }}</td>
                         <td>
-                            <textarea name="section#{{ section.pk }}" rows="10" style="resize: vertical; width: 100%;">{{ section.content }}</textarea>
+                            <textarea name="section#{{ section.pk }}" rows="10" style="resize: vertical; width: 100%;" class="save-constitution">{{ section.content }}</textarea>
                         </td>
                         <td>
                             <form method="post" action="{% url 'remove_section_constitution' %}">
@@ -71,7 +84,7 @@
         
     <div class="buttons">
             
-        <input type="submit" value="Save Edits" form="save-constitution">
+        <button id="save-edits">Save Edits</button>
             
         <form method="post" action="{% url 'submit_constitution' club.url %}">
             {% csrf_token %}
@@ -83,4 +96,4 @@
     
     </div>    
     
-{% endblock %}
+{% endblock body %}

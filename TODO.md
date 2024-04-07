@@ -5,7 +5,6 @@
 ### General
 - Move all model interactions that views do to the respective model
 - Add tests that check for bad model creation
-- Add JS to do async POST requests
 - Standarize using the objects.create function NOT instantiating the class
 - Add model managers to all models
 - Add help text, labels, and error-messages to front end forms
@@ -24,6 +23,7 @@
 - Add async JS autosave to editing page (and unsaved changes warning)
 - Add ability to create bullet points in sections (mostly for the role definitions)
 - Add warning that you cant delete last article or section when editing (JS?)
+- Run auto-saves for constitution edits only when edits are made not on timer
 
 ### Board
 - Add filtering and sorting to overview page (JS?)

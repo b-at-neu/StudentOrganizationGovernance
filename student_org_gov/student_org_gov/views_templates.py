@@ -2,6 +2,7 @@
 Functions to assist in views
 """
 
+import json
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -32,4 +33,8 @@ def post(request):
     if request.method != "POST":
         return False
     
-    return request.POST
+    # Check if data is json or html form
+    if request.content_type == "application/x-www-form-urlencoded":
+        return request.POST
+    elif request.content_type == "application/json":
+        return json.loads(request.body)
