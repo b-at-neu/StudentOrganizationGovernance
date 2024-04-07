@@ -66,6 +66,30 @@
             cursor: pointer;
             background-color: #44445f;
         }
+
+        /* Form formatting */
+        .helptext {
+            font-size: smaller;
+            font-style: italic;
+            color: gray;
+            margin-top: -10px;
+        }
+        .helptext ul {
+            padding-left: 0;
+        }
+        form div {
+            padding: 10px;
+            display: grid;
+            margin: auto;
+        }
+        form div * {
+            margin: 3px;
+            list-style-type: none;
+        }
+        form div input {
+            width: 15%;
+            margin: auto;
+        }
         
     </style>
     <script type="module" src="{% static 'post.js' %}"></script>

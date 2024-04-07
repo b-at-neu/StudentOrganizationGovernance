@@ -10,13 +10,19 @@ class CreateClubForm(forms.ModelForm):
     class Meta:
         model = models.Club
         fields = ["full_name", "abbreviation"]
+        help_texts = {
+            "abbreviation": "A short-form name for your organization which you will use throughout the constitution.",
+            "purpose": "A short description (a few sentences) on what your club does.",
+            "affiliation": "If your club is not affiliated with another institution, leave blank",
+            "dues": "Maximum amount you will charge your members per semester. Dues are not recommended for most clubs."
+        }
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
         self.fields["purpose"] = forms.CharField(max_length=200, required=True)
-        self.fields["affiliation"] = forms.CharField(max_length=200, required=True)
+        self.fields["affiliation"] = forms.CharField(max_length=200, required=False)
         self.fields["dues"] = forms.IntegerField(min_value=0)
 
     def save(self, commit=True):

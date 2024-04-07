@@ -16,8 +16,6 @@ from users.models import RoleUser
 def view(request, club_url):
     data = post(request)
 
-    print(data)
-
     try:
         constitution = models.Constitution.objects.get(pk=data.get("constitution"))
     except:

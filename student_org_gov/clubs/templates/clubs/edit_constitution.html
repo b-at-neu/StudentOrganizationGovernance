@@ -8,7 +8,6 @@
 
         function saveConstitution() {
             // Gather data
-            console.log([...document.querySelectorAll(".save-constitution")])
             const data = [...document.querySelectorAll(".save-constitution")].reduce((obj, i) => ({...obj, [i.name]: i.value}), {})
             data.constitution = {{ constitution.pk }}
 
