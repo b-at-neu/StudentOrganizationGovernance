@@ -16,7 +16,7 @@ def view(request):
     try:
         club = Club.objects.get(pk=data.get("club"))
     except:
-        return HttpResponseBadRequest("Model data not found")
+        return HttpResponseBadRequest(f"Club model data with pk '{data.get('club')}' not found")
 
     # Delete club
     club.delete()

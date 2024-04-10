@@ -26,3 +26,43 @@ class Constitution(duplicating_model.DuplicatingModel):
     def url(self) -> str:
         return str(self.pk).zfill(8)
     
+    def get_json(self):
+        """
+        Returns a JSON version of the model. Structure:
+        {
+            "pk": 0,
+            "articles": [{
+                "number": 0,
+                "title": "x",
+                "pk": 0
+                "sections": [{
+                    "number": 0,
+                    "content": "x",
+                    "pk": 0
+                }]
+            }]
+        }
+        """
+        data = {}
+        data["pk"] = self.pk
+        data["articles"] = []
+
+        # Add articles
+        for article in club_models.Article.objects.filter(constitution_id=self.pk).order_by("number"):
+            # Add sections
+            sections = []
+            for section in club_models.Section.objects.filter(article_id=article.pk).order_by("number"):
+                sections.append({
+                    "number": section.number,
+                    "content": section.content,
+                    "pk": section.pk
+                })
+            
+            data["articles"].append({
+                "number": article.number,
+                "title": article.title,
+                "pk": article.pk,
+                "sections": sections
+            })
+
+        return data

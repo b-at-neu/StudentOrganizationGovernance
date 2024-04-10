@@ -16,9 +16,10 @@ def view(request):
 
     try:
         club = Club.objects.get(pk=data.get("club"))
-        constitutions = models.Constitution.objects.filter(club=club)
     except:
-        return HttpResponseBadRequest("Model data not found")
+        return HttpResponseBadRequest(f"Club model data with pk '{data.get('club')}' not found")
+    
+    constitutions = models.Constitution.objects.filter(club=club)
 
     # Don't delete last constitution
     if constitutions.count() > 1:

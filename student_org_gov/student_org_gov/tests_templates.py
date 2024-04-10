@@ -217,8 +217,8 @@ class TestView(TestCase):
         else:
             try:
                 self.assertHttpResponseForbidden(full_url, post_data)
-            except AssertionError:
-                raise AssertionError(f"Access error. Able to access '{full_url}' with anon user. Data: {used_data}")
+            except AssertionError as e:
+                raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
         # Check for access denied
         for role in denied_access_roles:
@@ -230,8 +230,8 @@ class TestView(TestCase):
 
             try:
                 self.assertHttpResponseForbidden(full_url, post_data)
-            except AssertionError:
-                raise AssertionError(f"Access error. Able to access '{full_url}' with role {role}. Data: {used_data}")
+            except AssertionError as e:
+                raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
         # Check for access allowed
         for role in allowed_access_roles:
@@ -267,8 +267,8 @@ class TestView(TestCase):
 
             try:
                 self.assertHttpResponseForbidden(full_url, post_data)
-            except AssertionError:
-                raise AssertionError(f"Access error. Able to access '{full_url}' with incorrect club. Data: {used_data}")
+            except AssertionError as e:
+                raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
         # Check for allowed club
         if club_allowed is not None:
@@ -390,9 +390,15 @@ class TestView(TestCase):
         """
 
         response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+        try:
+            self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+        except AssertionError as e:
+            raise AssertionError(f"Get request did not return HttpResponseForbidden. Returned {response} instead.")
         response = self.client.post(url, follow=True, data=data)
-        self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+        try:
+            self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+        except AssertionError as e:
+            raise AssertionError(f"Post request did not return HttpResponseForbidden. Returned {response} instead.")
 
 
     def assertHttpResponseBadRequest(self, url, data):
@@ -441,6 +447,8 @@ class TestView(TestCase):
         Asserts that the provided url redirects to another page succesfully (exclusively for post)
         """
         response = self.client.post(url, follow=True, data=data)
+        if (response.status_code != 200):
+            raise AssertionError(f"Function returning error code {response.status_code}. {response.content}")
         try:
             self.assertRedirects(response, redirect_url)
         except AssertionError as e:

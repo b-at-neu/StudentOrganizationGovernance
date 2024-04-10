@@ -19,7 +19,7 @@ def view(request):
     try:
         constitution = models.Constitution.objects.get(pk=data.get("constitution"))
     except:
-        return HttpResponseBadRequest("Model data not found")
+        return HttpResponseBadRequest(f"Constitution model data with pk '{data.get('constitution')}' not found")
     decision = data.get("decision")
 
     if decision != "0" and decision != "1":

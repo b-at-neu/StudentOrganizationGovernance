@@ -1,86 +1,36 @@
 {% extends "base_template.html" %}
 
+{% load static %}
+
 {% block title %} Edit {{ club }} Constitution {% endblock title %}
 
 {% block head %}
-    <script type="module">
-        import { post } from "/static/post.js"
-
-        function saveConstitution() {
-            // Gather data
-            const data = [...document.querySelectorAll(".save-constitution")].reduce((obj, i) => ({...obj, [i.name]: i.value}), {})
-            data.constitution = {{ constitution.pk }}
-
-            post("{% url 'save_constitution_edits' club.url %}", data)
-        }
-
-        // Save all data every 10 seconds, on button, and on leaving
-        window.setInterval(saveConstitution, 10000)
-        document.querySelector("button#save-edits").addEventListener("click", saveConstitution)
-        window.onbeforeunload = saveConstitution
-        
-    </script>
+    <script type="module" src="{% static 'clubs/edit_constitution.js' %}"></script>
 {% endblock head %}
 
 {% block body %}
+
+    <!-- JS Data -->
+    <div id="data" 
+        data-constitution-pk="{{ constitution.pk }}"
+        data-get-data-url="{% url 'get_constitution_data' %}"
+        data-save-edits-url="{% url 'save_constitution_edits' club.url %}"
+        data-add-article-url="{% url 'add_article_constitution' %}"
+        data-add-section-url="{% url 'add_section_constitution' %}"
+        data-club-page-url="{% url 'club' club.url %}"
+        hidden
+    ></div>
+
     <h1>Constitution for {{ club }}</h1>
 
     <p>Created on {{ constitution.timestamp }}</p>
 
-        <table>
-            {% for article in articles %}
-                <tr>
-                    <th>Article {{ article.number }}</th>
-                    <th>
-                        <input name="article#{{ article.pk }}" type="text" value="{{ article.title }}" style="width: 100%;" class="save-constitution">
-                    </th>
-                    <th>
-                        <form method="post" action="{% url 'remove_article_constitution' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="article" value="{{ article.pk }}">
-                            <input type="submit" value="Remove Article">
-                        </form>
-                    </th>
-                </tr>
+        <table id="constitution"></table>
         
-                {% for section in article.sections.all %}
-                    <tr>
-                        <td>Section {{ section.number }}</td>
-                        <td>
-                            <textarea name="section#{{ section.pk }}" rows="10" style="resize: vertical; width: 100%;" class="save-constitution">{{ section.content }}</textarea>
-                        </td>
-                        <td>
-                            <form method="post" action="{% url 'remove_section_constitution' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="section" value="{{ section.pk }}">
-                                <input type="submit" value="Remove Section">
-                            </form>
-                        </td>
-                    </tr>
-                
-                {% endfor %}
-                <tr>
-                    <td></td>
-                    <td>
-                        <form method="post" action="{% url 'add_section_constitution' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="article" value="{{ article.pk }}">
-                            <input type="submit" value="Add Section">
-                        </form>
-                    </td>
-                    <td></td>
-                </tr>
-            {% endfor %}
-        </table>
+    <hr>    
 
-        
-        <form method="post" action="{% url 'add_article_constitution' %}">
-            {% csrf_token %}
-            <input type="hidden" name="constitution" value="{{ constitution.pk }}">
-            <input type="submit" value="Add Article">
-        </form>
-
-        
+    <div id="unsaved-changes-indicator" style="padding: 10px;"></div>
+    
     <div class="buttons">
             
         <button id="save-edits">Save Edits</button>
@@ -90,9 +40,9 @@
             <input type="hidden" name="constitution" value="{{ constitution.pk }}">
             <input type="submit" value="Submit Constitution">
         </form>
-        
-        <a href="{% url 'club' club.url %}"><button>Back to Club HERE</button></a>
-    
+
+        <a href="{% url 'club' club.url %}"><button>Club Page</button></a>
+            
     </div>    
     
 {% endblock body %}

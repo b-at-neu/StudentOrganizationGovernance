@@ -1,7 +1,5 @@
-from datetime import datetime
-
-from django.http import HttpResponseBadRequest, HttpResponseRedirect
-from django.urls import reverse
+import json
+from django.http import HttpResponseBadRequest, JsonResponse
 
 from student_org_gov.views_templates import post
 
@@ -19,32 +17,42 @@ def view(request, club_url):
     try:
         constitution = models.Constitution.objects.get(pk=data.get("constitution"))
     except:
-        return HttpResponseBadRequest("Model data not found")
+        return HttpResponseBadRequest(f"Constitution model data with pk '{data.get('constitution')}' not found")
+    
+    articles_list = list(constitution.articles.all())
 
-    # Update all model data
-    for k, v in data.items():
-        split_k = k.split("#")
+    for article in articles_list:
 
-        # Ignore improper formats
-        if len(split_k) != 2:
+        try:
+            article_data = next(filter(lambda i: i["pk"] == article.pk, data.get("articles")))
+            print(article_data)
+            #article_data = next(i for i in data.get("articles") if i["pk"] == article.pk)
+        except StopIteration:
+            # Remove article
+            article.delete()
             continue
 
-        type = split_k[0]
-        id = split_k[1]
+        # Update article data
+        article.number = article_data.get("number")
+        article.title = article_data.get("title")
+        article.save()
 
-        # Handle articles
-        if type == "article":
-            article = models.Article.objects.get(pk=id)
-            article.title = v
-            article.save()
+        for section in article.sections.all():
+            
+            try:
+                section_data = next(filter(lambda i: i["pk"] == section.pk, article_data.get("sections")))
+            except StopIteration:
+                # Remove section
+                section.delete()
+                continue
 
-        # Handle sections
-        elif type == "section":
-            section = models.Section.objects.get(pk=id)
-            section.content = v
+            # Update section data
+            section.number = section_data.get("number")
+            section.content = section_data.get("content")
             section.save()
 
-    return HttpResponseRedirect(reverse("constitution", kwargs={ 
-        "club_url": constitution.club.url, 
-        "constitution_pk": constitution.pk 
-    }))
+
+
+    return JsonResponse({
+        "result": "success"
+    })

@@ -138,6 +138,60 @@ class TestClubModels(TestModel):
                 self.constitution3: "00000006"
             }
         )
+        self.assertModelFunction(
+            function="get_json",
+            data={
+                self.constitution1: {
+                    "pk": 4,
+                    "articles": [
+                        {
+                            "number": 1,
+                            "title": "first title",
+                            "pk": 28,
+                            "sections": [
+                                {
+                                    "number": 1,
+                                    "content": "here's a bit of content",
+                                    "pk": 88
+                                },
+                                {
+                                    "number": 2,
+                                    "content": "some OTHER content",
+                                    "pk": 89
+                                }
+                            ]
+                        },
+                        {
+                            "number": 2,
+                            "title": "second title",
+                            "pk": 29,
+                            "sections": []
+                        }
+                    ]
+                },
+                self.constitution2: {
+                    "pk": 5,
+                    "articles": [
+                        {
+                            "number": 1,
+                            "title": "another title",
+                            "pk": 30,
+                            "sections": [
+                                {
+                                    "number": 1,
+                                    "content": "and the final one",
+                                    "pk": 90
+                                }
+                            ]
+                        }
+                    ]
+                },
+                self.constitution3: {
+                    "pk": 6,
+                    "articles": []
+                }
+            }
+        )
 
     
     def test_article(self):

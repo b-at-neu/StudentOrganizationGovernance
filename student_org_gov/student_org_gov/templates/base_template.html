@@ -37,12 +37,13 @@
         }
 
         table {
-            width: 800px;
+            width: 70%;
             margin: 0 auto;
         }
         th, td {
             padding: 18px;
             min-width: 100px;
+            width: 20%;
         }
         th {
             padding-top: 50px;
@@ -62,9 +63,13 @@
         button, input[type="submit"] a {
             text-decoration: none;
         }
-        button:hover, input[type="submit"]:hover {
+        button:hover:enabled, input[type="submit"]:hover:enabled {
             cursor: pointer;
             background-color: #44445f;
+        }
+        button:disabled, input[type="submit"]:disabled {
+            background-color: #888888;
+            border: 2px solid #888888;
         }
 
         /* Form formatting */

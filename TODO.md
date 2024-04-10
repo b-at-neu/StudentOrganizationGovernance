@@ -7,7 +7,6 @@
 - Add tests that check for bad model creation
 - Standarize using the objects.create function NOT instantiating the class
 - Add model managers to all models
-- Add help text, labels, and error-messages to front end forms
 
 ## Medium Priority
 
@@ -20,10 +19,10 @@
 
 ### Clubs
 - Add ability to move around articles and sections in edit mode
-- Add async JS autosave to editing page (and unsaved changes warning)
 - Add ability to create bullet points in sections (mostly for the role definitions)
-- Add warning that you cant delete last article or section when editing (JS?)
-- Run auto-saves for constitution edits only when edits are made not on timer
+- Make sure more than one user can't edit a constitution at the same time
+- get_constitution_data needs testing (commented out)
+- Add checks to make sure that front-end constitution edits meet requirements (numbers in order, none missing, no empty fields, etc)
 
 ### Board
 - Add filtering and sorting to overview page (JS?)
@@ -44,7 +43,7 @@
 - Allow e-board member to have more than one club
 - Add club status to clubs (tentative, conditional, etc)
 - Add direct links to SOP and SOAR
-- Add undos for editing
+- Add undos and redos for editing
 
 ### Board
 - Create template constitution editable to board members (multiple templates?)

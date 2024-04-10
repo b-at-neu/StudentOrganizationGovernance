@@ -10,16 +10,16 @@
         <p>Approved on {{ constitution.reviewed_timestamp }}</p>
     {% endif %}
 
-    <table>
+    <table style="width: 50%;">
         {% for article in articles %}
             <tr>
-                <th>Article {{ article.number }}</th>
+                <th style="width: 10%;">Article {{ article.number }}</th>
                 <th>{{ article.title }}</th>
             </tr>
     
             {% for section in article.sections.all %}
                 <tr>
-                    <td>Section {{ section.number }}</td>
+                    <td style="width: 10%;">Section {{ section.number }}</td>
                     <td>{{ section.content }}</td>
                 </tr>
             

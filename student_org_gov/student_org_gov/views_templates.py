@@ -34,7 +34,9 @@ def post(request):
         return False
     
     # Check if data is json or html form
-    if request.content_type == "application/x-www-form-urlencoded":
-        return request.POST
     elif request.content_type == "application/json":
-        return json.loads(request.body)
+        data = json.loads(request.body)
+        if not isinstance(data, dict):
+            data = json.loads(data)
+        return data
+    return request.POST

@@ -1,5 +1,5 @@
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
-from django.urls import reverse
+from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
+from django.core import serializers
 
 from users.models import RoleUser
 from student_org_gov.decorators import club_exists, club_required, role_required
@@ -16,21 +16,15 @@ def view(request):
         return HttpResponseForbidden("POST request expected.")
 
     try:
-        section = models.Section.objects.get(pk=data.get("section"))
+        constitution = models.Constitution.objects.get(pk=data.get("constitution_pk"))
     except:
         return HttpResponseBadRequest("Model data not found")
     
-    club = section.article.constitution.club
-
     @club_exists
     @club_required
     def sub(request, club_url):
-        # Do not delete last section
-        if len(section.article.sections.all()) > 1:
-            section.delete()
-
-        return HttpResponseRedirect(reverse("edit_constitution", kwargs={
-            "club_url": club_url
-        }))
+        return JsonResponse({
+            'constitution': constitution.get_json(),
+        })
     
-    return sub(request, club_url=club.url)
+    return sub(request, club_url=constitution.club.url)

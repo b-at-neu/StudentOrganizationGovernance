@@ -1,5 +1,4 @@
-from django.http import HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
-from django.urls import reverse
+from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
 
 from users.models import RoleUser
 from student_org_gov.decorators import club_exists, club_required, role_required
@@ -17,7 +16,7 @@ def view(request):
     try:
         article = models.Article.objects.get(pk=data.get("article"))
     except:
-        return HttpResponseBadRequest("Model data not found")
+        return HttpResponseBadRequest(f"Article model data with pk '{data.get('article')}' not found")
     
     club = article.constitution.club
 
@@ -30,14 +29,16 @@ def view(request):
         else:
             number = 1
 
-        models.Section.objects.create(
+        section = models.Section.objects.create(
             article=article,
             number=number,
             content=""
         )    
 
-        return HttpResponseRedirect(reverse("edit_constitution", kwargs={
-            "club_url": club_url
-        }))
+        return JsonResponse({
+            "number": number,
+            "pk": section.pk,
+            "articlepk": article.pk,
+        })
     
     return sub(request, club_url=club.url)
