@@ -6,6 +6,11 @@
 
 {% block head %}
     <script type="module" src="{% static 'clubs/edit_constitution.js' %}"></script>
+    <style>
+        table {
+            width: 50%;
+        }
+    </style>
 {% endblock head %}
 
 {% block body %}
@@ -25,7 +30,13 @@
 
     <p>Created on {{ constitution.timestamp }}</p>
 
-        <table id="constitution"></table>
+        <table id="constitution">
+            <colgroup>
+                <col style="width:20%;">
+                <col style="width:60%;">
+                <col style="width:20%;">
+            </colgroup>
+        </table>
         
     <hr>    
 

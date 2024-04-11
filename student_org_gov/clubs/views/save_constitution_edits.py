@@ -15,9 +15,9 @@ def view(request, club_url):
     data = post(request)
 
     try:
-        constitution = models.Constitution.objects.get(pk=data.get("constitution"))
+        constitution = models.Constitution.objects.get(pk=data.get("pk"))
     except:
-        return HttpResponseBadRequest(f"Constitution model data with pk '{data.get('constitution')}' not found")
+        return HttpResponseBadRequest(f"Constitution model data with pk '{data.get('pk')}' not found")
     
     articles_list = list(constitution.articles.all())
 

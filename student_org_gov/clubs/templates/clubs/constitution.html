@@ -2,6 +2,17 @@
 
 {% block title %} {{ club }} Constitution {% endblock %}
 
+{% block head %}
+    <style>
+        table {
+            width: 40%;
+        }
+        th, td {
+            vertical-align: text-top;
+        }
+    </style>
+{% endblock head %}
+
 {% block body %}
 <h1>Constitution for {{ club }}</h1>
 
@@ -10,17 +21,21 @@
         <p>Approved on {{ constitution.reviewed_timestamp }}</p>
     {% endif %}
 
-    <table style="width: 50%;">
+    <table>
+        <colgroup>
+            <col style="width:20%;">
+            <col style="width:70%;">
+        </colgroup> 
         {% for article in articles %}
             <tr>
-                <th style="width: 10%;">Article {{ article.number }}</th>
-                <th>{{ article.title }}</th>
+                <th style="text-align: right;">Article {{ article.number }}</th>
+                <th style="text-align: left;">{{ article.title }}</th>
             </tr>
     
             {% for section in article.sections.all %}
                 <tr>
-                    <td style="width: 10%;">Section {{ section.number }}</td>
-                    <td>{{ section.content }}</td>
+                    <td style="text-align: right;">Section {{ section.number }}</td>
+                    <td style="text-align: left;">{{ section.content }}</td>
                 </tr>
             
             {% endfor %}

@@ -2,13 +2,27 @@
 
 {% block title %} {{ club }} {% endblock %}
 
+{% block head %}
+    <style>
+        table {
+            width: 35%;
+        }
+    </style>
+{% endblock head %}
+
 {% block body %}
     <h1>Constitutions for {{ club }}</h1>
 
+    <p>Select any constitution to see more details.</p>
+
     <table>
+        <colgroup>
+            <col style="width:70%">
+            <col style="width:30%">
+        </colgroup> 
         {% for constitution in club.constitutions.all %}
             <tr>
-                <td><a href="{% url 'constitution' club.url constitution.url %}">{{ constitution }}</a></td>
+                <td><a class="link" href="{% url 'constitution' club.url constitution.url %}">{{ constitution }}</a></td>
                 <td>{{ constitution.get_status_display }}</td>
             </tr>
         {% endfor %}

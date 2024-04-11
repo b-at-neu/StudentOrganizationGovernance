@@ -33,16 +33,12 @@
 ### General
 - Create confirmation screens for important tasks (submit, edit, approve, etc)
 - Make long lists take up multiple pages (club list, users, etc)
-- Create nice home page
-- Improve front-end formatting of forms
-- Improve formatting of links
 - Add form testing
 
 ### Clubs
 - Add ability for board members to deny certain sections and provide reasoning
 - Allow e-board member to have more than one club
 - Add club status to clubs (tentative, conditional, etc)
-- Add direct links to SOP and SOAR
 - Add undos and redos for editing
 
 ### Board

@@ -39,16 +39,29 @@
         table {
             width: 70%;
             margin: 0 auto;
+            table-layout: fixed;
         }
         th, td {
             padding: 18px;
             min-width: 100px;
             width: 20%;
+            overflow: hidden;
         }
         th {
             padding-top: 50px;
         }
 
+        /* Links */
+        a.link {
+            color: black;
+            text-decoration: none;
+            padding: 5px;
+        }
+        a.link:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
         div.buttons {
             display:inline-flex;
         }
