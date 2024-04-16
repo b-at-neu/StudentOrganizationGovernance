@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.views.decorators.http import require_GET
+
 from clubs import models
 from student_org_gov.decorators import club_constitution_exists, role_required, constitution_has_status
 from users.models import RoleUser
 
+@require_GET
 @role_required(RoleUser.Roles.BOARD_MEMBER)
 def board_overview_page(request):
 
@@ -19,6 +21,7 @@ def board_overview_page(request):
     return render(request, "board/board_overview.html", { 'club_list': club_list })
 
 
+@require_GET
 @club_constitution_exists
 @constitution_has_status(models.Constitution.Status.SUBMITTED)
 @role_required(RoleUser.Roles.BOARD_MEMBER)

@@ -14,7 +14,6 @@
 - Add more and better wording for assertion errors in testing suite
     - Change "able to access" to something else, they usually can't access
 - Change function decorator system to be more expansive and simpler
-- Check that all POST views only take POST methods
 - Consolidate multiple POST funcs into one view with more params
 
 ### Clubs

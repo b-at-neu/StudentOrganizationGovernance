@@ -147,14 +147,13 @@ class TestBoardViews(TestView):
 
     
     def test_logout(self):
-        self.assertPostView(
+        self.assertPageView(
             url="logout",
             url_args={},
-            redirect_url=reverse("home"),
-            post_data={},
+            template="home/home.html",
+            context={},
             anon_user_access=False,
-            denied_access_roles=[
-            ],
+            denied_access_roles=[],
             allowed_access_roles=[
                 RoleUser.Roles.VIEWER,
                 RoleUser.Roles.E_BOARD,

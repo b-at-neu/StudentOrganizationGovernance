@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_GET
 
 from student_org_gov.decorators import club_exists, club_required
 from clubs.models import Club
 
-# View all information about a certain club
+
+@require_GET
 @club_exists
 @club_required
 def view(request, club_url):

@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_GET
 
 from clubs import models
 from student_org_gov.decorators import club_exists, club_required
 from clubs.models import Club
 
-# Edit a constitution of a certain club
+
+@require_GET
 @club_exists
 @club_required
 def view(request, club_url):

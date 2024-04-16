@@ -1,5 +1,6 @@
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 from student_org_gov.views_templates import post
 
@@ -8,7 +9,7 @@ from clubs.models import Club
 from users.models import RoleUser
 
 
-# Delete a club
+@require_POST
 @role_required(RoleUser.Roles.ADMIN)
 def view(request):
     data = post(request)

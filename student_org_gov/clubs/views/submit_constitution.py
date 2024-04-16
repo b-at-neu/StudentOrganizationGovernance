@@ -2,6 +2,7 @@ from datetime import datetime
 
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
 from student_org_gov.views_templates import post
 
@@ -10,7 +11,7 @@ from student_org_gov.decorators import club_required, role_required
 from users.models import RoleUser
 
 
-# Submit a constitution for approval
+@require_POST
 @role_required(RoleUser.Roles.E_BOARD)
 @club_required
 def view(request, club_url):

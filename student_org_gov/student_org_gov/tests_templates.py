@@ -94,6 +94,7 @@ class TestView(TestCase):
                 "allowed_access_roles": allowed_access_roles,
                 "club_denied": club_denied,
                 "club_allowed": club_allowed,
+                "request_type": "GET",
             },
             used_data={},
             full_url=reverse(url, kwargs=url_args)
@@ -154,6 +155,7 @@ class TestView(TestCase):
                 "allowed_access_roles": allowed_access_roles,
                 "club_denied": club_denied,
                 "club_allowed": club_allowed,
+                "request_type": "POST",
             },
             used_data={},
             full_url=reverse(url, kwargs=url_args)
@@ -195,6 +197,7 @@ class TestView(TestCase):
         denied_access_roles = data.get("denied_access_roles")
         allowed_access_roles = data.get("allowed_access_roles")
         post_data = data.get("post_data")
+        request_type = data.get("request_type")
 
         # Data type verification
         if type(anon_user_access) is not bool:
@@ -216,7 +219,7 @@ class TestView(TestCase):
             self.get_next_func(funcs, data, used_data, full_url)
         else:
             try:
-                self.assertHttpResponseForbidden(full_url, post_data)
+                self.assertHttpResponseForbidden(full_url, post_data, request_type)
             except AssertionError as e:
                 raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
@@ -229,7 +232,7 @@ class TestView(TestCase):
             self.user.save()
 
             try:
-                self.assertHttpResponseForbidden(full_url, post_data)
+                self.assertHttpResponseForbidden(full_url, post_data, request_type)
             except AssertionError as e:
                 raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
@@ -251,6 +254,7 @@ class TestView(TestCase):
         club_denied = data.get("club_denied")
         club_allowed = data.get("club_allowed")
         post_data = data.get("post_data")
+        request_type = data.get("request_type")
 
         # Check that club_denied and club_required is False or club instance
         if club_denied is not None and not isinstance(club_denied, Club):
@@ -266,7 +270,7 @@ class TestView(TestCase):
             self.user.save()
 
             try:
-                self.assertHttpResponseForbidden(full_url, post_data)
+                self.assertHttpResponseForbidden(full_url, post_data, request_type)
             except AssertionError as e:
                 raise AssertionError(f"Improper response code for '{full_url}'. Data: {used_data}. Error: {e}")
 
@@ -291,6 +295,7 @@ class TestView(TestCase):
         url = data.get("url")
         url_args = data.get("url_args")
         post_data = data.get("post_data")
+        request_type = data.get("request_type")
 
         for arg, v in url_args.items():
             # Replace current arg with a different value
@@ -300,7 +305,7 @@ class TestView(TestCase):
             used_data["parameters"] = temp_args
 
             try:
-                self.assertHttpResponseNotFound(reverse(url, kwargs=temp_args), post_data)
+                self.assertHttpResponseNotFound(reverse(url, kwargs=temp_args), post_data, request_type)
             except AssertionError:
                 raise AssertionError(f"Parameter error. Parameters '{temp_args}' were able to access '{full_url}'. Data: {used_data}")
 
@@ -374,31 +379,34 @@ class TestView(TestCase):
     ##############
 
 
-    def assertHttpResponseNotFound(self, url, data):
+    def assertHttpResponseNotFound(self, url, data, request_type):
         """
         Asserts that the provided url returns an HttpResponseNotFound statuscode
         """
-        response = self.client.get(url, follow=True)
-        self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
-        response = self.client.post(url, follow=True, data=data)
-        self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
+        if request_type == "GET":
+            response = self.client.get(url, follow=True)
+            self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
+        elif request_type == "POST":
+            response = self.client.post(url, follow=True, data=data)
+            self.assertEqual(response.status_code, HttpResponseNotFound.status_code)
     
 
-    def assertHttpResponseForbidden(self, url, data):
+    def assertHttpResponseForbidden(self, url, data, request_type):
         """
         Asserts that the provided url returns an HttpResponseForbidden statuscode
         """
-
-        response = self.client.get(url, follow=True)
-        try:
-            self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
-        except AssertionError as e:
-            raise AssertionError(f"Get request did not return HttpResponseForbidden. Returned {response} instead.")
-        response = self.client.post(url, follow=True, data=data)
-        try:
-            self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
-        except AssertionError as e:
-            raise AssertionError(f"Post request did not return HttpResponseForbidden. Returned {response} instead.")
+        if request_type == "GET":
+            response = self.client.get(url, follow=True)
+            try:
+                self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+            except AssertionError as e:
+                raise AssertionError(f"Get request did not return HttpResponseForbidden. Returned {response} instead.")
+        elif request_type == "POST":
+            response = self.client.post(url, follow=True, data=data)
+            try:
+                self.assertEqual(response.status_code, HttpResponseForbidden.status_code)
+            except AssertionError as e:
+                raise AssertionError(f"Post request did not return HttpResponseForbidden. Returned {response} instead.")
 
 
     def assertHttpResponseBadRequest(self, url, data):
@@ -419,16 +427,6 @@ class TestView(TestCase):
         """
         try:
             response = self.client.get(url, follow=True)
-            self.assertEqual(response.status_code, 200)
-            self.assertTemplateUsed(response, template)
-            for k, v in context.items():
-                # Convert querysets to lists
-                if isinstance(v, QuerySet):
-                    self.assertEqual(list(response.context.get(k)), list(v))
-                else:
-                    self.assertEqual(response.context.get(k), v)
-
-            response = self.client.post(url, follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertTemplateUsed(response, template)
             for k, v in context.items():

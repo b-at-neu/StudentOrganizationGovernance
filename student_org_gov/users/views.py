@@ -2,6 +2,7 @@ from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import auth
+from django.views.decorators.http import require_GET, require_POST
 
 from student_org_gov.decorators import anon_required, min_role_required, role_required
 from student_org_gov.views_templates import post, render_form
@@ -11,6 +12,7 @@ from .forms import LoginForm, SignUpForm
 from clubs.models import Club
 
 
+@require_GET
 @role_required(RoleUser.Roles.ADMIN)
 def users_overview(request):
     return render(request, 'users/users.html', context={
@@ -20,6 +22,7 @@ def users_overview(request):
     })
 
 
+@require_POST
 @role_required(RoleUser.Roles.ADMIN)
 def edit_role(request):
     data = post(request)
@@ -38,6 +41,7 @@ def edit_role(request):
     return HttpResponseRedirect(reverse("users"))
 
 
+@require_POST
 @role_required(RoleUser.Roles.ADMIN)
 def edit_club(request):
     data = post(request)
@@ -93,6 +97,7 @@ def login(request):
     )
 
 
+@require_GET
 @min_role_required(RoleUser.Roles.VIEWER)
 def logout(request):
 

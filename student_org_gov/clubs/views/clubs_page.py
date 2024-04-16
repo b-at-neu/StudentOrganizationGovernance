@@ -1,8 +1,9 @@
 from django.shortcuts import render
+from django.views.decorators.http import require_GET
 
 from clubs.models.club import Club
 
-# Overview of all clubs
+@require_GET
 def view(request):
     return render(request, "clubs/clubs.html", {
         'clubs': list(Club.objects.all())

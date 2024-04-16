@@ -1,5 +1,5 @@
 from django.http import HttpResponseBadRequest, HttpResponseForbidden, JsonResponse
-from django.core import serializers
+from django.views.decorators.http import require_POST
 
 from users.models import RoleUser
 from student_org_gov.decorators import club_exists, club_required, role_required
@@ -8,7 +8,7 @@ from student_org_gov.views_templates import post
 from clubs import models
 
 
-
+@require_POST
 @role_required(RoleUser.Roles.E_BOARD)
 def view(request):
     data = post(request)

@@ -1,5 +1,5 @@
-import json
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.views.decorators.http import require_POST
 
 from student_org_gov.views_templates import post
 
@@ -8,7 +8,7 @@ from student_org_gov.decorators import club_required, role_required
 from users.models import RoleUser
 
 
-# Save the edits in the constitution
+@require_POST
 @role_required(RoleUser.Roles.E_BOARD)
 @club_required
 def view(request, club_url):
