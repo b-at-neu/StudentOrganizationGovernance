@@ -1,0 +1,1 @@
+.\.venv\Scripts\activate ; if ($?) { python student_org_gov\manage.py makemigrations } ; if ($?) { python student_org_gov\manage.py migrate } ; if ($?) { python student_org_gov\manage.py test } ; if ($?) { python student_org_gov\manage.py runserver }
