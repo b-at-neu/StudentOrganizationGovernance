@@ -21,6 +21,7 @@
 - Add ability to create bullet points in sections (mostly for the role definitions)
 - Make sure more than one user can't edit a constitution at the same time
 - get_constitution_data needs testing (commented out)
+- figure out how to test get_json function with DIDs
 - Add checks to make sure that front-end constitution edits meet requirements (numbers in order, none missing, no empty fields, etc)
 
 ### Board
@@ -33,6 +34,7 @@
 - Create confirmation screens for important tasks (submit, edit, approve, etc)
 - Make long lists take up multiple pages (club list, users, etc)
 - Add form testing
+- Add dark mode
 
 ### Clubs
 - Add ability for board members to deny certain sections and provide reasoning

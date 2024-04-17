@@ -1,65 +1,81 @@
 {% extends "base_template.html" %}
 
+{% load static %}
+
 {% block title %} Review {{ club }} Constitution {% endblock %}
 
 {% block head %}
-<style>
-    .old-content {
-        text-decoration: line-through;
-    }
-    .new-content {
-        color: red;
-    }
-</style>
+    <script type="module" src="{% static 'board/review_constitution.js' %}"></script>
+    <style>
+        table {
+            width: 50%;
+        }
+        .old-content {
+            color: red;
+            text-decoration: line-through;
+            text-decoration-thickness: 3px;
+        }
+        .new-content {
+            color: blue;
+        }
+    </style>
 {% endblock head %}
 
 {% block body %}
-<h1>Constitution for {{ club }}</h1>
 
-    <p>Created on {{ new_constitution.timestamp }}</p>
-    <p>Submitted on {{ new_constitution.submitted_timestamp }}</p>
+    <!-- JS Data -->
+    <div id="data" 
+        data-constitution-pk="{{ constitution.pk }}"
+        data-old-constitution-pk="{{ old_constitution.pk }}"
+        data-get-data-url="{% url 'get_constitution_data' %}"
+        hidden
+    ></div>
 
-    <table>
-        {% for all_article in all_articles %}
-            <tr>
-                <th>Article {{ all_article.new.number }}</th>
-                <th>{{ all_article.new.title }}</th>
-            </tr>
-    
-            {% for all_section in all_article.sections %}
-                <tr>
-                    <td>Section {{ all_section.new.number }}</td>
-                    <td>
-                        {% if not all_section.old or all_section.new.content == all_section.old.content %}
-                            {{ all_section.new.content }} {{ all_section.old }}
-                        {% else %}
-                            <div class="old-content">{{ all_section.old.content }}</div>
-                            <div class="new-content">{{ all_section.new.content }}</div>
-                        {% endif %}
-                    </td>
-                </tr>
-            
-            {% endfor %}
-        {% endfor %}
+    <h1>Constitution for {{ club }}</h1>
+
+    <p>Created on {{ constitution.timestamp }}</p>
+    <p>Submitted on {{ constitution.submitted_timestamp }}</p>
+    {% if old_constitution.reviewed_timestamp %}
+        <p>Last approved constitution on {{ old_constitution.reviewed_timestamp }}</p>
+    {% else %}
+        <p>No previously approved constitution</p>
+    {% endif %}
+
+    <hr>
+
+    <p>
+        <span class="old-content" style="margin-right: 15px;">Old Content</span>
+        <span class="new-content" style="margin-left: 15px;">New Content</span>
+    </p>
+
+    <table id="constitution">
+        <colgroup>
+            <col style="width:20%;">
+            <col style="width:60%;">
+            <col style="width:20%;">
+        </colgroup>
     </table>
-
+        
+    <hr>    
+    
     <div class="buttons">
             
         <form method="post" action="{% url 'review_constitution' %}">
             {% csrf_token %}
             <input type="hidden" name="decision" value="1">
-            <input type="hidden" name="constitution" value="{{ new_constitution.pk }}">
+            <input type="hidden" name="constitution" value="{{ constitution.pk }}">
             <input type="submit" value="Approve Constitution">
         </form>
+
         <form method="post" action="{% url 'review_constitution' %}">
             {% csrf_token %}
             <input type="hidden" name="decision" value="0">
-            <input type="hidden" name="constitution" value="{{ new_constitution.pk }}">
+            <input type="hidden" name="constitution" value="{{ constitution.pk }}">
             <input type="submit" value="Deny Constitution">
         </form>
         
         <a href="{% url 'board' %}"><button>Back to Board Overview</button></a>
     
-    </div>    
+    </div> 
     
-{% endblock %}
+{% endblock body %}

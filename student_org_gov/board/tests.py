@@ -91,33 +91,8 @@ class TestBoardViews(TestView):
             template="board/review_constitution.html",
             context={
                 "club": self.club1,
-                "new_constitution": self.const2,
-                "all_articles": [
-                    {
-                        "new": self.const2.articles.get(number=1),
-                        "old": self.const1.articles.get(number=1),
-                        "sections": [
-                            {
-                                "new": self.const2.articles.get(number=1).sections.get(number=1),
-                                "old": self.const1.articles.get(number=1).sections.get(number=1)
-                            },
-                            {
-                                "new": self.const2.articles.get(number=1).sections.get(number=2),
-                                "old": self.const1.articles.get(number=1).sections.get(number=2)
-                            }
-                        ]
-                    },
-                    {
-                        "new": self.const2.articles.get(number=2),
-                        "old": self.const1.articles.get(number=2),
-                        "sections": [
-                            {
-                                "new": self.const2.articles.get(number=2).sections.get(number=1),
-                                "old": self.const1.articles.get(number=2).sections.get(number=1)
-                            }
-                        ]
-                    }
-                ]
+                "old_constitution": self.const1,
+                "constitution": self.const2,
             },
             anon_user_access=False,
             denied_access_roles=[

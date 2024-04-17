@@ -55,12 +55,14 @@ class Constitution(duplicating_model.DuplicatingModel):
                 sections.append({
                     "number": section.number,
                     "content": section.content,
+                    "did": str(section.did),
                     "pk": section.pk
                 })
             
             data["articles"].append({
                 "number": article.number,
                 "title": article.title,
+                "did": str(article.did),
                 "pk": article.pk,
                 "sections": sections
             })
