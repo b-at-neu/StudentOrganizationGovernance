@@ -39,11 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'student_org_gov',
-    'home',
-    'users',
-    'board',
-    'clubs',
+    'student_org_gov.student_org_gov',
+    'student_org_gov.home',
+    'student_org_gov.users',
+    'student_org_gov.board',
+    'student_org_gov.clubs',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'student_org_gov.urls'
+ROOT_URLCONF = 'student_org_gov.student_org_gov.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'student_org_gov.wsgi.application'
+WSGI_APPLICATION = 'student_org_gov.student_org_gov.wsgi.application'
 
 
 # Database
