@@ -1,6 +1,6 @@
 import uuid
 
-from django.core.validators import MinValueValidator 
+from django.core.validators import MinValueValidator, MinLengthValidator
 from django.db import models
 
 from clubs.models.article import Article
@@ -17,7 +17,7 @@ class Section(duplicating_model.DuplicatingModel):
     did = models.UUIDField(default=uuid.uuid4, editable=False, unique=False)
 
     number = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)], default=None)
-    content = models.CharField(max_length=10000, default=None)
+    content = models.CharField(max_length=10000, default=None, validators=[MinLengthValidator(1)])
 
     def __str__(self) -> str:
         return f'Section {self.number}: {self.content}'

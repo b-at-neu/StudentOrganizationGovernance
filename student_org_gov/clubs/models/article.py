@@ -1,6 +1,6 @@
 import uuid
 
-from django.core.validators import MinValueValidator 
+from django.core.validators import MinValueValidator, MinLengthValidator
 from django.db import models
 
 from clubs.models.constitution import Constitution
@@ -17,7 +17,7 @@ class Article(duplicating_model.DuplicatingModel):
     did = models.UUIDField(default=uuid.uuid4, editable=False)
 
     number = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)], default=None)
-    title = models.CharField(max_length=200, default=None)
+    title = models.CharField(max_length=200, default=None, validators=[MinLengthValidator(1)])
 
     def __str__(self) -> str:
         return f'Article {self.number}: {self.title}'

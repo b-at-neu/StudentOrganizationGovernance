@@ -5,8 +5,6 @@
 ### General
 - Move all model interactions that views do to the respective model
 - Add tests that check for bad model creation
-- Standarize using the objects.create function NOT instantiating the class
-- Add model managers to all models
 
 ## Medium Priority
 
@@ -22,7 +20,6 @@
 - Make sure more than one user can't edit a constitution at the same time
 - get_constitution_data needs testing (commented out)
 - figure out how to test get_json function with DIDs
-- Add checks to make sure that front-end constitution edits meet requirements (numbers in order, none missing, no empty fields, etc)
 
 ### Board
 - Add filtering and sorting to overview page (JS?)
