@@ -1,7 +1,7 @@
 {
     "builds": [
       {
-        "src": "student_org_gov/student_org_gov/wsgi.py",
+        "src": "student_org_gov/wsgi.py",
         "use": "@vercel/python",
         "config": { "runtime": "python3.9" }
       }
@@ -9,7 +9,7 @@
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "student_org_gov/student_org_gov/wsgi.py"
+        "dest": "student_org_gov/wsgi.py"
       }
     ]
 }
