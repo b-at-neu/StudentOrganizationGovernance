@@ -23,7 +23,8 @@
 
 ### Board
 - Add filtering and sorting to overview page (JS?)
-- Improve algorithm for identifying which text has been replaced
+- Add ability to toggle between viewing red-lined version and regular
+- Add ability to disable additional red-lining algorithm (on a user-by-user basis?)
 
 ## Low Priority
 

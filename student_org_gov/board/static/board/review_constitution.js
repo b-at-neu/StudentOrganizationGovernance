@@ -23,6 +23,104 @@ document.addEventListener("DOMContentLoaded", async () => {
 })
 
 // #####################
+//    Text difference
+// #####################
+
+function getDifference(oldText, newText) {
+    const subStrings = getSubstrings(oldText, newText)
+
+    const span = document.createElement("span")
+
+    // Creates html spans for substrings of specific types
+    function createSubstringHTML(content, type) {
+        if (content === "")
+            return
+
+        const subSpan = document.createElement("span")
+
+        if (type === "old")
+            subSpan.classList.add("old-content")
+        else if (type === "new")
+            subSpan.classList.add("new-content")
+
+        subSpan.innerHTML = content
+        span.appendChild(subSpan)
+    }
+
+    let i = 0, j = 0
+    for (let subIndex = 0; subIndex < subStrings.length;) {
+        let oldAtSub = (subStrings[subIndex].oldIndex == i)
+        let newAtSub = (subStrings[subIndex].newIndex == j)
+
+        if (oldAtSub && newAtSub) {
+            // Handle substrings
+            createSubstringHTML(subStrings[subIndex].substring, "normal")
+
+            i += subStrings[subIndex].substring.length
+            j += subStrings[subIndex].substring.length
+            subIndex++ 
+
+        } else if (!oldAtSub) {
+            // Handle old strings
+            createSubstringHTML(oldText.substring(i, subStrings[subIndex].oldIndex), "old")
+            i = subStrings[subIndex].oldIndex
+
+        } else if (!newAtSub) {
+            // Handle new strings
+            createSubstringHTML(newText.substring(j, subStrings[subIndex].newIndex), "new")
+            j = subStrings[subIndex].newIndex
+        } else {
+            return "An error occured."
+        }
+    }
+
+
+    // Handle old strings at end
+    createSubstringHTML(oldText.substring(i), "old")
+
+    // Handle new strings at end
+    createSubstringHTML(newText.substring(j), "new")
+
+    return span
+}
+
+function getSubstrings(oldStr, newStr) { 
+    const subStrings = []
+  
+    for (let i = 0; i < oldStr.length; i++) { 
+        for (let j = 0; j < newStr.length; j++) { 
+
+            // Move j forwards to most recent substring
+            if (j == 0 && subStrings.length > 0)
+                j = subStrings[subStrings.length - 1].newIndex + subStrings[subStrings.length - 1].substring.length
+
+            let substring = "", k = i, l = j
+  
+            while (k < oldStr.length &&  
+                   l < newStr.length &&  
+                   oldStr[k] === newStr[l]) {
+                substring += oldStr[k] 
+                                
+                k++ 
+                l++ 
+            } 
+
+            if (substring.length > 5) {
+                subStrings.push({
+                    substring,
+                    oldIndex: i,
+                    newIndex: j,
+                })
+                // Make sure not to check the same section again
+                i = k
+                j = l
+            }
+        }
+    } 
+    return subStrings; 
+} 
+
+// #####################
 //  Create constitution
 // #####################
 
@@ -50,6 +148,7 @@ function generateArticles(constitutionDataArticles, oldConstitutionDataArticles)
             generateSections(constitutionDataArticles[i].sections, oldConstitutionDataArticles[j].sections)
             i++, j++
         }
+    }
 }
 
 function generateSections(constitutionDataSections, oldConstitutionDataSections) {
@@ -90,7 +189,6 @@ function generateSections(constitutionDataSections, oldConstitutionDataSections)
         }
     }
 }
-}
 
 function createArticle(number, title, oldTitle, pk) {
     const table = document.querySelector("table#constitution")
@@ -110,16 +208,8 @@ function createArticle(number, title, oldTitle, pk) {
 
     if (title === oldTitle)
         th2.innerHTML = title
-    else {
-        const oldSpan = document.createElement("span")
-        oldSpan.classList.add("old-content")
-        oldSpan.innerHTML = oldTitle
-        const newSpan = document.createElement("span")
-        newSpan.classList.add("new-content")
-        newSpan.innerHTML = title
-        th2.appendChild(oldSpan)
-        th2.appendChild(newSpan)
-    }
+    else
+        th2.appendChild(getDifference(oldTitle, title))
     tr.appendChild(th2)
 
     // Button
@@ -151,16 +241,8 @@ function createSection(number, content, oldContent, pk) {
     const td2 = document.createElement("td")
     if (content === oldContent)
         td2.innerHTML = content
-    else {
-        const oldSpan = document.createElement("span")
-        oldSpan.classList.add("old-content")
-        oldSpan.innerHTML = oldContent
-        const newSpan = document.createElement("span")
-        newSpan.classList.add("new-content")
-        newSpan.innerHTML = content
-        td2.appendChild(oldSpan)
-        td2.appendChild(newSpan)
-    }
+    else
+        td2.appendChild(getDifference(oldContent, content))
     tr.appendChild(td2)
 
     // Button
